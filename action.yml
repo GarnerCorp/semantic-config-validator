@@ -1,4 +1,5 @@
 name: 'Config Semantical Check'
+author: 'garnercorp'
 description: 'Validate configuration units by feeding all of them into an image capable of validation'
 inputs:
   config-units:
@@ -62,10 +63,10 @@ runs:
         CONFIG_TESTER_HEALTH_ENDPOINT: ${{ inputs.config-tester-health-endpoint }}
         CONFIG_TESTER_STARTUP_ARGS: ${{ inputs.config-tester-startup-args }}
         VALIDATOR_IMAGE: ${{ inputs.validator-image }}
-        VALIDATION_SCRIPT: ${{ validation-script }}
+        VALIDATION_SCRIPT: ${{ inputs.validation-script }}
         NEO4J_DOCKER_COMPOSE: ${{ inputs.neo4j-docker-compose }}
-        NEO4J_CREDENTIALS: ${{ neo4j-credentials }}
+        NEO4J_CREDENTIALS: ${{ inputs.neo4j-credentials }}
         TEMPLATE_DOCKER_COMPOSE: ${{ inputs.template-docker-compose }}
         NUM_PARALLEL_CHECKS: ${{ inputs.num-parallel-checks }}
-        CONFIG_TESTER_RESPONSE_READY: ${{ config-tester-response-ready }}
+        CONFIG_TESTER_RESPONSE_READY: ${{ inputs.config-tester-response-ready }}
         PROBLEM_MATCHERS_PATH: ${{ inputs.problem-matchers }}
