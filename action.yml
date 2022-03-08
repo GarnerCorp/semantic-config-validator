@@ -28,18 +28,18 @@ inputs:
   validation-script:
     description: 'Script which validates configuration unit when it run inside of a validator'
     required: false
-    default: './defaults/testing-resources/test-backend-config.sh'
+    default: '${{ github.action_path }}/defaults/testing-resources/test-backend-config.sh'
   neo4j-docker-compose:
     description: 'docker-compose for neo4j'
     required: false
-    default: 'defaults/docker-resources/docker-compose.yml'
+    default: '${{ github.action_path }}/defaults/docker-resources/docker-compose.yml'
   neo4j-credentials:
     description: 'Credentials for authenticating with neo4j'
     required: true
   template-docker-compose:
     description: 'Template describing how to build each individual configuration unit'
     required: false
-    default: 'defaults/docker-resources/docker-compose-template.yml'
+    default: '${{ github.action_path }}/defaults/docker-resources/docker-compose-template.yml'
   num-parallel-checks:
     description: 'Number of config units to test concurrently'
     required: false
@@ -47,7 +47,7 @@ inputs:
   problem-matchers:
     description: 'Directory containing all github problem matchers to use. Defaults to a path useful to GarnerCorp'
     required: false
-    default: 'defaults/problem-matchers'
+    default: '${{ github.action_path }}/defaults/problem-matchers'
 
 runs:
   using: 'composite'
@@ -56,7 +56,7 @@ runs:
       shell: bash
       run: |
         export LD_LIBRARY_PATH=/usr/local/lib;
-        ./action.sh
+        $GITHUB_ACTION_PATH/action.sh
       env: 
         CONFIG_UNITS: ${{ inputs.config-units }}
         CONFIG_TESTER_SUCCESS_RESULT: ${{ inputs.config-tester-success-result }}
