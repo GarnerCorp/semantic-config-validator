@@ -1,0 +1,23 @@
+  CONF_TEST:
+    image: >-
+      VALIDATOR_IMAGE
+    environment:
+      LIGHTHOUSE_NEO4J_EMBEDDED: 'false'
+      LIGHTHOUSE_NEO4J_SERVER_URI: 'bolt://neo4j'
+      LIGHTHOUSE_EVENT_NOTIFIER_RABBITMQ_HOSTNAME: 'rabbitmq'
+      BACKEND_SUCCESS_RESULT: >-
+        SUCCEEDING_WITH
+      BACKEND_HEALTH_ENDPOINT: 'PLACE_TO_HIT'
+      BACKEND_STARTUP_ARGS: >-
+        STARTUP_ARGUMENTS
+      CONFIG_TESTER_RESPONSE_READY: >-
+        READY_RESPONSE
+      UNIT: >-
+        CONFIG_UNIT
+    depends_on:
+      - neo4j
+    volumes:
+      - CONF_HOME:/app/conf/domain
+      - VALIDATION_SCRIPT:/opt/my/runner
+    entrypoint: >-
+      /opt/my/runner
