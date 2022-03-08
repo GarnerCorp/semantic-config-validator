@@ -1,0 +1,50 @@
+{
+    "problemMatcher": [
+        {
+            "owner": "match-failed",
+            "pattern": [
+                {
+                    "regexp": "^(.* exited with code [1-9]\\d*)",
+                    "message": 1
+                }
+            ]
+        },
+        {
+            "owner": "schema-validation-exception",
+            "pattern": [
+                {
+                    "regexp": "[[]Guice/(Error)\\w+]: (.*)",
+                    "severity": 1,
+                    "message": 2
+                }
+            ]
+        },
+        {
+            "owner": "schema-validation-details",
+            "pattern": [
+                {
+                    "regexp": "^(.*) ### Error Explanation ###",
+                    "message": 1
+                }
+            ]
+        },
+        {
+            "owner": "config-reader-exception",
+            "pattern": [
+                {
+                    "regexp": "ConfigReaderException.*"
+                },
+                {
+                    "regexp": "@ file:/app/conf/domain/([^:]*): (\\d+)\\) (.*)",
+                    "file": 1,
+                    "line": 2,
+                    "message": 3
+                },
+                {
+                    "regexp": "Learn more:",
+                    "loop": false
+                }
+            ]
+        }
+    ]
+}

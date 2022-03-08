@@ -1,0 +1,72 @@
+name: 'Config Semantical Check'
+author: 'GarnerCorp'
+description: 'Validate configuration units by feeding all of them into an image capable of validation'
+inputs:
+  config-units:
+    description: 'Directory containing the configuration units to check'
+    required: false
+    default: 'conf-files/backend'
+  config-tester-success-result:
+    description: 'Result associated with success from a config-tester'
+    required: false
+    default: '{"databaseConnection":{"Right":{"value":"ok"}}}'
+  config-tester-health-endpoint:
+    description: 'Which endpoint to hit to determine success/failure.'
+    required: false
+    default: 'http://localhost:9000/health'
+  config-tester-startup-args:
+    description: 'All arguments required to give to a config-tester for it to start up properly.'
+    required: false
+    default: '0.12.0 6912'
+  config-tester-response-ready:
+    description: 'Token from endpoint indicating startup'
+    required: false
+    default: '^{'
+  validator-image:
+    description: 'Image to run validations against'
+    required: true
+  validation-script:
+    description: 'Script which validates configuration unit when it run inside of a validator'
+    required: false
+    default: '$GITHUB_ACTION_PATH/defaults/testing-resources/test-backend-config.sh'
+  neo4j-docker-compose:
+    description: 'docker-compose for neo4j'
+    required: false
+    default: '$GITHUB_ACTION_PATH/defaults/docker-resources/docker-compose-neo4j.yml'
+  neo4j-credentials:
+    description: 'Credentials for authenticating with neo4j'
+    required: true
+  template-docker-compose:
+    description: 'Template describing how to build each individual configuration unit'
+    required: false
+    default: '$GITHUB_ACTION_PATH/defaults/docker-resources/docker-compose-template.yml'
+  num-parallel-checks:
+    description: 'Number of config units to test concurrently'
+    required: false
+    default: '3'
+  problem-matchers:
+    description: 'Directory containing all github problem matchers to use. Defaults to a path useful to GarnerCorp'
+    required: false
+    default: '$GITHUB_ACTION_PATH/defaults/problem-matchers'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Sending config to a config-tester
+      shell: bash
+      run: |
+        export LD_LIBRARY_PATH=/usr/local/lib;
+        $GITHUB_ACTION_PATH/action.sh
+      env: 
+        CONFIG_UNITS: ${{ inputs.config-units }}
+        CONFIG_TESTER_SUCCESS_RESULT: ${{ inputs.config-tester-success-result }}
+        CONFIG_TESTER_HEALTH_ENDPOINT: ${{ inputs.config-tester-health-endpoint }}
+        CONFIG_TESTER_STARTUP_ARGS: ${{ inputs.config-tester-startup-args }}
+        VALIDATOR_IMAGE: ${{ inputs.validator-image }}
+        VALIDATION_SCRIPT: ${{ inputs.validation-script }}
+        NEO4J_DOCKER_COMPOSE: ${{ inputs.neo4j-docker-compose }}
+        NEO4J_CREDENTIALS: ${{ inputs.neo4j-credentials }}
+        TEMPLATE_DOCKER_COMPOSE: ${{ inputs.template-docker-compose }}
+        NUM_PARALLEL_CHECKS: ${{ inputs.num-parallel-checks }}
+        CONFIG_TESTER_RESPONSE_READY: ${{ inputs.config-tester-response-ready }}
+        PROBLEM_MATCHERS_PATH: ${{ inputs.problem-matchers }}
