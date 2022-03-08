@@ -13,7 +13,7 @@ inputs:
   config-tester-health-endpoint:
     description: 'Which endpoint to hit to determine success/failure.'
     required: false
-    default: 'localhost:9000/health'
+    default: 'http://localhost:9000/health'
   config-tester-startup-args:
     description: 'All arguments required to give to a config-tester for it to start up properly.'
     required: false
@@ -28,18 +28,18 @@ inputs:
   validation-script:
     description: 'Script which validates configuration unit when it run inside of a validator'
     required: false
-    default: '${{ github.action_path }}/defaults/testing-resources/test-backend-config.sh'
+    default: '$GITHUB_ACTION_PATH/defaults/testing-resources/test-backend-config.sh'
   neo4j-docker-compose:
     description: 'docker-compose for neo4j'
     required: false
-    default: '${{ github.action_path }}/defaults/docker-resources/docker-compose.yml'
+    default: '$GITHUB_ACTION_PATH/defaults/docker-resources/docker-compose.yml'
   neo4j-credentials:
     description: 'Credentials for authenticating with neo4j'
     required: true
   template-docker-compose:
     description: 'Template describing how to build each individual configuration unit'
     required: false
-    default: '${{ github.action_path }}/defaults/docker-resources/docker-compose-template.yml'
+    default: '$GITHUB_ACTION_PATH/defaults/docker-resources/docker-compose-template.yml'
   num-parallel-checks:
     description: 'Number of config units to test concurrently'
     required: false
@@ -47,7 +47,7 @@ inputs:
   problem-matchers:
     description: 'Directory containing all github problem matchers to use. Defaults to a path useful to GarnerCorp'
     required: false
-    default: '${{ github.action_path }}/defaults/problem-matchers'
+    default: '$GITHUB_ACTION_PATH/defaults/problem-matchers'
 
 runs:
   using: 'composite'

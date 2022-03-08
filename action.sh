@@ -24,6 +24,19 @@ add_all_problem_matchers() {
   for matcher in "$PROBLEM_MATCHERS_PATH"/*; do echo "::add-matcher::$matcher"; done
 }
 
+fill_in_github_action_path() {
+  perl -pne 's/\$GITHUB_ACTION_PATH/$ENV{GITHUB_ACTION_PATH}/g'
+}
+
+expand_github_action_path() {
+  CONFIG_TESTER_HEALTH_ENDPOINT="$(echo "$CONFIG_TESTER_HEALTH_ENDPOINT" | fill_in_github_action_path)"
+  VALIDATION_SCRIPT="$(echo "$VALIDATION_SCRIPT" | fill_in_github_action_path)"
+  NEO4J_DOCKER_COMPOSE="$(echo "$NEO4J_DOCKER_COMPOSE" | fill_in_github_action_path)"
+  TEMPLATE_DOCKER_COMPOSE="$(echo "$TEMPLATE_DOCKER_COMPOSE" | fill_in_github_action_path)"
+  PROBLEM_MATCHERS_PATH="$(echo "$PROBLEM_MATCHERS_PATH" | fill_in_github_action_path)"
+}
+
+expand_github_action_path
 add_all_problem_matchers
 perl -pne "s{NEO4J_CREDENTIALS}{$NEO4J_CREDENTIALS}" "$NEO4J_DOCKER_COMPOSE" > "$docker_compose"
 
