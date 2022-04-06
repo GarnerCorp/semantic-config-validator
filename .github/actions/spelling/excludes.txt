@@ -4,6 +4,7 @@
 (?:^|/)go\.sum$
 (?:^|/)package(?:-lock|)\.json$
 (?:^|/)vendor/
+(?:^|/)yarn\.lock$
 ignore$
 \.ai$
 \.avi$
@@ -19,6 +20,7 @@ ignore$
 \.icns$
 \.ico$
 \.jar$
+\.jmx$
 \.jpe?g$
 \.key$
 \.lock$
@@ -36,5 +38,6 @@ ignore$
 \.ttf$
 \.wav$
 \.woff2?$
+\.xlsx?$
 \.zip$
 ^\.github/

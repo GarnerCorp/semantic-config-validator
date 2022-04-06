@@ -1,4 +1,4 @@
-name: Spell checking
+name: Check Spelling
 on:
   push:
     branches: ["**"]
@@ -9,12 +9,13 @@ on:
 
 jobs:
   spelling:
-    name: Spell checking
+    name: Check Spelling
     permissions:
       contents: read
       pull-requests: read
       actions: read
     outputs:
+      followup: ${{ steps.spelling.outputs.followup }}
       internal_state_directory: ${{ steps.spelling.outputs.internal_state_directory }}
     runs-on: ubuntu-latest
     if: "contains(github.event_name, 'pull_request') || github.event_name == 'push'"
@@ -37,7 +38,7 @@ jobs:
         suppress_push_for_open_pull_request: 1
         post_comment: 0
     - name: store-comment
-      if: failure() && steps.spelling.outputs.internal_state_directory
+      if: (failure() || steps.spelling.outputs.followup) && steps.spelling.outputs.internal_state_directory
       uses: actions/upload-artifact@v2
       with:
         retention-days: 1
@@ -46,13 +47,13 @@ jobs:
           ${{ steps.spelling.outputs.internal_state_directory }}
 
   comment:
-    name: Comment
+    name: Report
     runs-on: ubuntu-latest
     needs: spelling
     permissions:
       contents: write
       pull-requests: write
-    if: always() && needs.spelling.result == 'failure' && needs.spelling.outputs.internal_state_directory
+    if: always() && (needs.spelling.result == 'failure' || needs.spelling.outputs.followup) && needs.spelling.outputs.internal_state_directory
     steps:
     - name: checkout
       uses: actions/checkout@v3
@@ -88,7 +89,10 @@ jobs:
     steps:
     - name: checkout
       uses: actions/checkout@v3
-    - name: check-spelling
+      with:
+        ssh-key: "${{ secrets.CHECK_SPELLING }}"
+    - name: apply spelling updates
       uses: check-spelling/check-spelling@prerelease
       with:
+        config: .github/actions/spelling-data
         experimental_apply_changes_via_bot: 1
