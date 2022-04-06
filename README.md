@@ -11,7 +11,7 @@ This action does just this! It:
     1. Starting up a system capable of validating the configuration
     2. Feeds the configuration to that system
     3. Curls some endpoint
-    4. Checks if the the response is expected. If it is not expected, we fail.
+    4. Checks if the response is expected. If it is not expected, we fail.
 
 ## Inputs
 
