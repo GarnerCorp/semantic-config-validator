@@ -41,3 +41,4 @@ ignore$
 \.xlsx?$
 \.zip$
 ^\.github/
+^\Q.secrets.baseline\E$
