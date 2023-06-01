@@ -2,6 +2,7 @@ args
 backend
 config
 egrep
+elif
 elsif
 entrypoint
 gcr
@@ -22,5 +23,6 @@ regexp
 URI
 usr
 validator
+wget
 xargs
 yml
