@@ -32,6 +32,8 @@ jobs:
         checkout: true
         spell_check_this: check-spelling/spell-check-this@prerelease
         post_comment: 0
+        extra_dictionaries:
+          cspell:software-terms/dict/softwareTerms.txt
 
   comment:
     name: Report
