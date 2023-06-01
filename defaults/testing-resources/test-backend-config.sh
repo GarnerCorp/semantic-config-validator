@@ -22,10 +22,25 @@ show_logs() {
   }' "$backend_err"
 }
 
+if command -v curl >/dev/null; then
+  retriever="curl"
+  retriever_flags="-s"
+elif command -v wget >/dev/null; then
+  retriever="wget"
+  retriever_flags="-q -O -"
+else
+  echo "Neither curl nor wget is installed. Cannot proceed." >&2
+  exit 127
+fi
+
+retrieve() {
+  $retriever $retriever_flags "$@"
+}
+
 backend_ready() {
   backend_pid=$(cat $pid_file)
 
-  while ! curl -s "$BACKEND_HEALTH_ENDPOINT" | grep -q "$CONFIG_TESTER_RESPONSE_READY"; do
+  while ! retrieve "$BACKEND_HEALTH_ENDPOINT" | grep -q "$CONFIG_TESTER_RESPONSE_READY"; do
     if [ ! -d "/proc/$backend_pid" ]; then
       show_logs
       exit 1
@@ -44,7 +59,7 @@ start_backend(){
 
 start_backend
 
-BACKEND_HEALTH=$(curl -s "$BACKEND_HEALTH_ENDPOINT")
+BACKEND_HEALTH=$(retrieve "$BACKEND_HEALTH_ENDPOINT")
 
 if [ "$BACKEND_HEALTH" = "$BACKEND_SUCCESS_RESULT" ]; then
   echo "Config unit $UNIT ok"
