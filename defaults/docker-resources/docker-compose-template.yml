@@ -16,8 +16,16 @@
         CONFIG_UNIT
     depends_on:
       - neo4j
-    volumes:
-      - CONF_HOME:/app/conf/domain
-      - VALIDATION_SCRIPT:/opt/my/runner
-    entrypoint: >-
-      /opt/my/runner
+    entrypoint: |
+      sh -c '
+      command -v apk > /dev/null || (command -v apt-get >/dev/null && apt-get update)
+      command -v curl > /dev/null || apk add curl || apt-get install curl
+      mkdir -p /app/conf/domain
+      (
+        cd /app/conf/domain
+        curl -s http://CONFIG_SERVER/CONFIG_UNIT.tar.gz | tar zx
+      )
+      curl -s http://CONFIG_SERVER/run-script > /tmp/script
+      chmod +x /tmp/script
+      /tmp/script
+      '
