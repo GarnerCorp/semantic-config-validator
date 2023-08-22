@@ -45,6 +45,16 @@
                     "loop": false
                 }
             ]
+        },
+        {
+            "owner": "config-ok",
+            "severity": "notice",
+            "pattern": [
+                {
+                    "regexp": "(Config unit \\S+ ok)$",
+                    "message": 1
+                }
+            ]
         }
     ]
 }
