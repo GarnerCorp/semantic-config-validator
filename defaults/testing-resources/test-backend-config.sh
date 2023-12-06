@@ -4,7 +4,27 @@ set -e
 backend_err=$(mktemp)
 pid_file=$(mktemp)
 
+has_command() {
+  command -v "$1" > /dev/null
+}
+
 show_logs() {
+  if ! has_command perl; then
+  (
+    if has_command apk; then
+      apk add perl
+    elif has_command apt-get; then
+      apt-get update && apt-get install -y perl
+    else
+      false
+    fi
+  ) >/dev/null 2>/dev/null || echo "::warning::could not configure perl" >&2
+  fi
+  if ! has_command perl; then
+    cat "$backend_err"
+    return
+  fi
+
   perl -e '
   my $state=0;
   while (<>) {
