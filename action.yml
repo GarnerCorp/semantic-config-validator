@@ -9,7 +9,7 @@ inputs:
   config-tester-success-result:
     description: 'Result associated with success from a config-tester'
     required: false
-    default: '{"databaseConnection":{"Right":{"value":"ok"}}}'
+    default: '{"databaseConnection":{"Right":{"value":"OK.*"}}}'
   config-tester-health-endpoint:
     description: 'Which endpoint to hit to determine success/failure.'
     required: false
