@@ -86,7 +86,7 @@ if [ "$BACKEND_HEALTH" = "$BACKEND_SUCCESS_RESULT" ]; then
   exit 0
 fi
 
-echo "<header>Config Unit $Unit is broken</header>"
+echo "<header>Config unit $UNIT is broken</header>"
 echo "$BACKEND_HEALTH" | tr '\n' ' '
 
 show_logs
