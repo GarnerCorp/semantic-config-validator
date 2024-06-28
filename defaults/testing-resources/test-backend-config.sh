@@ -81,7 +81,7 @@ start_backend
 
 BACKEND_HEALTH=$(retrieve "$BACKEND_HEALTH_ENDPOINT")
 
-if [ "$BACKEND_HEALTH" = "$BACKEND_SUCCESS_RESULT" ]; then
+if echo "$BACKEND_HEALTH" | grep -q "$BACKEND_SUCCESS_RESULT"; then
   echo "Config unit $UNIT ok"
   exit 0
 fi
