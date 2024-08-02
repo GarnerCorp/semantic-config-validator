@@ -60,7 +60,7 @@ perl -pe 's/NEO4J_CREDENTIALS/$ENV{NEO4J_CREDENTIALS}/' "$NEO4J_DOCKER_COMPOSE" 
 docker pull $VALIDATOR_IMAGE &
 pull_pid=$!
 
-docker-compose up -d neo4j &
+docker compose up -d neo4j &
 start_web_server
 
 cp "$VALIDATION_SCRIPT" "$web_root"/run-script
@@ -97,7 +97,7 @@ neo4j_ready
 wait $pull_pid
 check_config_unit
 
-docker-compose down
+docker compose down
 stop_web_server
 
 if [ $(grep -c . config_unit) != $(egrep -c 'Config unit \S+ ok' "$conf_check_output") ]
