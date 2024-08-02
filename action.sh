@@ -34,7 +34,7 @@ check_config_unit() {
   split config_unit --lines="$NUM_PARALLEL_CHECKS" "$config_group_prefix"
 
   for config_group in $(ls | grep "$config_group_prefix"); do
-    cat "$config_group" | xargs docker-compose up | tee -a "$conf_check_output"
+    cat "$config_group" | xargs docker compose up | tee -a "$conf_check_output"
   done
 }
 
