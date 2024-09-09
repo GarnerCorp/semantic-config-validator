@@ -1,4 +1,3 @@
-version: '3'
 services:
   neo4j:
     image: gcr.io/helical-crowbar-220917/neo4j-with-demo-data:latest
