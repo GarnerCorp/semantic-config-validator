@@ -93,6 +93,26 @@ for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
   echo "$unit" >> 'config_unit'
 done
 
+if ! docker-compose ps >/dev/null; then
+  echo ::error title=Invalid Configuration::docker compose objected to the configuration
+  (
+    b='`'
+    echo '# Error'
+    echo '```sh'
+    (docker-compose ps >/dev/null || true) 2>&1
+    echo '```'
+    echo
+    echo "<details><summary>$b$docker_compose$b</summary>"
+    echo
+    echo '```yml'
+    cat "$docker_compose"
+    echo '```'
+    echo
+    echo '</details>'
+  ) >> "$GITHUB_STEP_SUMMARY"
+  exit 15
+fi
+
 neo4j_ready
 wait $pull_pid
 check_config_unit
