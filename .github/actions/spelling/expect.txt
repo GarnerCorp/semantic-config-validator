@@ -1,11 +1,7 @@
 apk
 gcr
-github
 Guice
 jvm
 mktemp
-pid
-pne
 rabbitmq
-usr
 yml
