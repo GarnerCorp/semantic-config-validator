@@ -1,6 +1,6 @@
 services:
   neo4j:
-    image: gcr.io/helical-crowbar-220917/neo4j-with-demo-data:latest
+    image: NEO4J_IMAGE
     container_name: neo4j
     ports:
       - 7474:7474

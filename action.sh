@@ -56,7 +56,7 @@ expand_github_action_path() {
 
 expand_github_action_path
 add_all_problem_matchers
-perl -pe 's/NEO4J_CREDENTIALS/$ENV{NEO4J_CREDENTIALS}/' "$NEO4J_DOCKER_COMPOSE" > "$docker_compose"
+perl -pe 's/NEO4J_IMAGE/$ENV{NEO4J_IMAGE}/;s/NEO4J_CREDENTIALS/$ENV{NEO4J_CREDENTIALS}/' "$NEO4J_DOCKER_COMPOSE" > "$docker_compose"
 docker pull $VALIDATOR_IMAGE &
 pull_pid=$!
 
