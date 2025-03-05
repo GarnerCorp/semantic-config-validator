@@ -52,6 +52,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Set up google docker credentials
+      uses: GarnerCorp/build-actions/configure-google-docker@main
+      with:
+        images: >-
+          ${{ inputs.validator-image }}
     - name: Sending config to a config-tester
       shell: bash
       run: |
