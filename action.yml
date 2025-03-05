@@ -29,6 +29,10 @@ inputs:
     description: 'Script which validates configuration unit when it run inside of a validator'
     required: false
     default: '$GITHUB_ACTION_PATH/defaults/testing-resources/test-backend-config.sh'
+  neo4j-image:
+    description: 'Image for neo4j'
+    required: false
+    default: 'gcr.io/helical-crowbar-220917/neo4j-with-demo-data:latest'
   neo4j-docker-compose:
     description: 'docker-compose for neo4j'
     required: false
@@ -56,6 +60,7 @@ runs:
       uses: GarnerCorp/build-actions/configure-google-docker@main
       with:
         images: >-
+          ${{ inputs.neo4j-image }}
           ${{ inputs.validator-image }}
     - name: Sending config to a config-tester
       shell: bash
@@ -69,6 +74,7 @@ runs:
         CONFIG_TESTER_STARTUP_ARGS: ${{ inputs.config-tester-startup-args }}
         VALIDATOR_IMAGE: ${{ inputs.validator-image }}
         VALIDATION_SCRIPT: ${{ inputs.validation-script }}
+        NEO4J_IMAGE: ${{ inputs.neo4j-image }}
         NEO4J_DOCKER_COMPOSE: ${{ inputs.neo4j-docker-compose }}
         NEO4J_CREDENTIALS: ${{ inputs.neo4j-credentials }}
         TEMPLATE_DOCKER_COMPOSE: ${{ inputs.template-docker-compose }}
