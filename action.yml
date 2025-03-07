@@ -32,7 +32,7 @@ inputs:
   neo4j-image:
     description: 'Image for neo4j'
     required: false
-    default: 'gcr.io/helical-crowbar-220917/neo4j-with-demo-data:latest'
+    default: 'us-central1-docker.pkg.dev/polished-enigma-247013/images/neo4j-with-demo-data:latest'
   neo4j-docker-compose:
     description: 'docker-compose for neo4j'
     required: false
