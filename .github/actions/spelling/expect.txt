@@ -1,7 +1,7 @@
 apk
-gcr
 Guice
 jvm
 mktemp
 rabbitmq
+VPR
 yml
