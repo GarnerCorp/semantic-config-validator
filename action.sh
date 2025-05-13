@@ -58,6 +58,9 @@ expand_github_action_path() {
   PROBLEM_MATCHERS_PATH="$(echo "$PROBLEM_MATCHERS_PATH" | fill_in_github_action_path)"
 }
 
+ip addr list
+hostname -i
+
 expand_github_action_path
 add_all_problem_matchers
 perl -pe 's/NEO4J_IMAGE/$ENV{NEO4J_IMAGE}/;s/NEO4J_CREDENTIALS/$ENV{NEO4J_CREDENTIALS}/' "$NEO4J_DOCKER_COMPOSE" > "$docker_compose"
@@ -70,7 +73,7 @@ start_web_server
 cp "$VALIDATION_SCRIPT" "$web_root"/run-script
 
 touch 'config_unit'
-ip addr list
+
 sleep 2
 curl -v -f http://$CONFIG_SERVER || true
 
