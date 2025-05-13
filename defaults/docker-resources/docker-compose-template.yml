@@ -30,6 +30,8 @@
       fi
       command -v apk > /dev/null || (command -v apt-get >/dev/null && apt-get update)
       command -v curl > /dev/null || apk add curl || apt-get install curl
+      curl -v -f http://$CONFIG_SERVER || true
+
       mkdir -p /app/conf/domain
       (
         cd /app/conf/domain

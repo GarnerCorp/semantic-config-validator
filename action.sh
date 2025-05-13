@@ -71,6 +71,8 @@ cp "$VALIDATION_SCRIPT" "$web_root"/run-script
 
 touch 'config_unit'
 
+curl -v -f http://$CONFIG_SERVER || true
+
 # Prepare docker-compose containers
 for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
   [ -z "$config_unit_path" ] && break
