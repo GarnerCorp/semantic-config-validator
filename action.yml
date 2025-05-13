@@ -52,6 +52,10 @@ inputs:
     description: 'Directory containing all github problem matchers to use. Defaults to a path useful to GarnerCorp'
     required: false
     default: '$GITHUB_ACTION_PATH/defaults/problem-matchers'
+  trace:
+    description: Trace action
+    required: false
+    default: ''
 
 runs:
   using: 'composite'
@@ -67,7 +71,7 @@ runs:
       run: |
         export LD_LIBRARY_PATH=/usr/local/lib;
         $GITHUB_ACTION_PATH/action.sh
-      env: 
+      env:
         CONFIG_UNITS: ${{ inputs.config-units }}
         CONFIG_TESTER_SUCCESS_RESULT: ${{ inputs.config-tester-success-result }}
         CONFIG_TESTER_HEALTH_ENDPOINT: ${{ inputs.config-tester-health-endpoint }}
@@ -81,3 +85,4 @@ runs:
         NUM_PARALLEL_CHECKS: ${{ inputs.num-parallel-checks }}
         CONFIG_TESTER_RESPONSE_READY: ${{ inputs.config-tester-response-ready }}
         PROBLEM_MATCHERS_PATH: ${{ inputs.problem-matchers }}
+        TRACE: ${{ inputs.trace || (github.run_attempt > 1 && '1' || '') }}
