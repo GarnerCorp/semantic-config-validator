@@ -2,6 +2,10 @@
 
 set -e
 
+if [ -n "$TRACE" ]; then
+  set -x
+fi
+
 docker_compose="docker-compose.yml"
 conf_check_output=$(mktemp)
 project_root=$(pwd)
