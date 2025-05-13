@@ -92,6 +92,7 @@ for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
     s{CONF_HOME}{$ENV{CONF_HOME}};
     s{CONFIG_SERVER}{$ENV{CONFIG_SERVER}};
     s{READY_RESPONSE}{$ENV{CONFIG_TESTER_RESPONSE_READY}};
+    s{TRACE_STATUS}{$ENV{TRACE}};
     ' "$TEMPLATE_DOCKER_COMPOSE" >> "$docker_compose"
 
   echo "$unit" >> 'config_unit'
