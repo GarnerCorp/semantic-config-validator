@@ -33,6 +33,10 @@
         curl -s http://CONFIG_SERVER/CONFIG_UNIT.tar.gz | tar zx
       )
       curl -s http://CONFIG_SERVER/run-script > /tmp/script
-      chmod +x /tmp/script
-      /tmp/script
+      if [ -n "$TRACE" ]; then
+        sh -x /tmp/script
+      else
+        chmod +x /tmp/script
+        /tmp/script
+      fi
       '
