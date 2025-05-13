@@ -50,6 +50,7 @@ jobs:
           cspell:software-terms/dict/softwareTerms.txt
           cspell:node/dict/node.txt
           cspell:django/dict/django.txt
+          cspell:php/dict/php.txt
 
   comment-push:
     name: Report (Push)
