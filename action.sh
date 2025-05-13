@@ -19,7 +19,7 @@ start_web_server() {
     python3 -m http.server $web_port &
     echo $! > "$web_pid"
   )
-  export CONFIG_SERVER=$(hostname -i):$web_port
+  export CONFIG_SERVER=$(ip -4 addr list eth0 |perl -ne 'next unless m,inet ([^/]+),; print $1; last'):$web_port
 }
 
 stop_web_server() {
