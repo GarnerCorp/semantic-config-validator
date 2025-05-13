@@ -70,6 +70,7 @@ start_web_server
 cp "$VALIDATION_SCRIPT" "$web_root"/run-script
 
 touch 'config_unit'
+ip addr list
 sleep 2
 curl -v -f http://$CONFIG_SERVER || true
 
