@@ -79,6 +79,7 @@ echo "COMMON PATH: $common_unit_path"
 echo '###'
 if [ -d "$common_unit_path/domain" ]; then
   (
+    echo "Creating tar at $web_root/common.tar.gz"
     cd "$project_root/$CONFIG_UNITS/common/domain"
     tar czf "$web_root/common.tar.gz" .
   )
