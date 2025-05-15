@@ -74,7 +74,7 @@ touch 'config_unit'
 common_unit_path="$project_root/$CONFIG_UNITS/common"
 echo '###'
 echo 'PATHS:'
-echo "$project_root/$CONFIG_UNITS/"
+ls "$project_root/$CONFIG_UNITS/"
 echo "COMMON PATH: $common_unit_path"
 echo "COMMON PATH CONTENT:"
 ls -l $common_unit_path
