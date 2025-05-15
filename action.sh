@@ -71,15 +71,26 @@ cp "$VALIDATION_SCRIPT" "$web_root"/run-script
 
 touch 'config_unit'
 
+common_unit_path="$project_root/$CONFIG_UNITS/common"
+if [ -d "$common_unit_path/domain" ]; then
+  (
+    cd "$project_root/$CONFIG_UNITS/common/domain"
+    tar czf "$web_root/common.tar.gz" .
+  )
+fi
+
 # Prepare docker-compose containers
 for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
   [ -z "$config_unit_path" ] && break
 
   unit=$(basename "$config_unit_path")
-  (
-    cd "$project_root/$CONFIG_UNITS/$unit/domain"
-    tar czf "$web_root/$unit.tar.gz" .
-  )
+
+  if [ "$unit" != "common" ]; then
+    (
+      cd "$project_root/$CONFIG_UNITS/$unit/domain"
+      tar czf "$web_root/$unit.tar.gz" .
+    )
+  fi
 
   UNIT="$unit" CONF_HOME="$config_unit_path/domain" \
   perl -pe '

@@ -31,6 +31,20 @@
       command -v apk > /dev/null || (command -v apt-get >/dev/null && apt-get update)
       command -v curl > /dev/null || apk add curl || apt-get install curl
       mkdir -p /app/conf/domain
+      if [ "$UNIT" != "common" ]; then
+        (
+          cd /app/conf/domain
+          if curl -D /tmp/headers -f $CURL_FLAGS http://CONFIG_SERVER/common.tar.gz -o /tmp/common.tar.gz; then
+            tar zxf /tmp/common.tar.gz
+            rm -f /tmp/common.tar.gz
+          else
+            result=$?
+            echo curl failed $result
+            cat /tmp/headers
+            exit $result
+          fi
+          )
+      fi
       (
         cd /app/conf/domain
         if curl -D /tmp/headers -f $CURL_FLAGS http://CONFIG_SERVER/CONFIG_UNIT.tar.gz -o /tmp/unit.tar.gz; then
