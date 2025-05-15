@@ -76,6 +76,8 @@ echo '###'
 echo 'PATHS:'
 ls -l
 echo "COMMON PATH: $common_unit_path"
+echo "COMMON PATH CONTENT:"
+ls -l $common_unit_path
 echo '###'
 if [ -d "$common_unit_path/domain" ]; then
   (
