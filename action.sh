@@ -91,6 +91,8 @@ fi
 for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
   [ -z "$config_unit_path" ] && break
 
+  echo "Current config_unit_path: $config_unit_path"
+
   unit=$(basename "$config_unit_path")
 
   if [ "$unit" != "common" ]; then
