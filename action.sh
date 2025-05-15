@@ -72,6 +72,7 @@ cp "$VALIDATION_SCRIPT" "$web_root"/run-script
 touch 'config_unit'
 
 common_unit_path="$project_root/$CONFIG_UNITS/common"
+echo "$common_unit_path"
 if [ -d "$common_unit_path/domain" ]; then
   (
     cd "$project_root/$CONFIG_UNITS/common/domain"
