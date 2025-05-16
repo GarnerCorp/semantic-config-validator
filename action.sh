@@ -79,7 +79,7 @@ if [ -d "$common_unit_path/domain" ]; then
     tar czf "$web_root/common.tar.gz" .
   )
 fi
-
+ls -l "$project_root/$CONFIG_UNITS"
 # Prepare docker-compose containers
 for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
   [ -z "$config_unit_path" ] && break
