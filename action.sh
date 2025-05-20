@@ -12,6 +12,7 @@ project_root=$(pwd)
 web_root=$(mktemp -d)
 web_port=9001
 web_pid=$(mktemp)
+common_unit_name='common'
 
 start_web_server() {
   (
@@ -58,6 +59,22 @@ expand_github_action_path() {
   PROBLEM_MATCHERS_PATH="$(echo "$PROBLEM_MATCHERS_PATH" | fill_in_github_action_path)"
 }
 
+create_archive() {
+  unit=$1
+  scratch_directory="$(mktemp -d)"
+
+  cp -r "$project_root/$CONFIG_UNITS/$unit/domain"/* "$scratch_directory"
+  
+  if [ "$unit" != "$common_unit_name" ] && [ -d "$project_root/$CONFIG_UNITS/$common_unit_name/domain" ]; then
+    cp -r "$project_root/$CONFIG_UNITS/$common_unit_name/domain"/* "$scratch_directory"
+  fi
+
+  (
+    cd "$scratch_directory"
+    tar czf "$web_root/$unit.tar.gz" .
+  )
+}
+
 expand_github_action_path
 add_all_problem_matchers
 perl -pe 's/NEO4J_IMAGE/$ENV{NEO4J_IMAGE}/;s/NEO4J_CREDENTIALS/$ENV{NEO4J_CREDENTIALS}/' "$NEO4J_DOCKER_COMPOSE" > "$docker_compose"
@@ -76,10 +93,7 @@ for config_unit_path in "$project_root/$CONFIG_UNITS"/*/; do
   [ -z "$config_unit_path" ] && break
 
   unit=$(basename "$config_unit_path")
-  (
-    cd "$project_root/$CONFIG_UNITS/$unit/domain"
-    tar czf "$web_root/$unit.tar.gz" .
-  )
+  create_archive "$unit"
 
   UNIT="$unit" CONF_HOME="$config_unit_path/domain" \
   perl -pe '
